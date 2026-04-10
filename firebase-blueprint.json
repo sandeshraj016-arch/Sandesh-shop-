@@ -1,0 +1,42 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Stores user statistics and profile information.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "displayName": { "type": "string", "description": "User's display name" },
+        "email": { "type": "string", "description": "User's email" },
+        "photoURL": { "type": "string", "description": "User's profile photo URL" },
+        "followers": { "type": "number", "description": "Current simulated followers" },
+        "likes": { "type": "number", "description": "Total simulated likes" },
+        "views": { "type": "number", "description": "Total simulated views" },
+        "lastUpdated": { "type": "string", "format": "date-time", "description": "Last time stats were updated" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Simulation": {
+      "title": "Growth Simulation",
+      "description": "A record of a specific growth simulation run.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Owner UID" },
+        "type": { "type": "string", "enum": ["followers", "likes", "views"], "description": "Type of simulation" },
+        "amount": { "type": "number", "description": "Amount added" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "When the simulation occurred" }
+      },
+      "required": ["uid", "type", "amount", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile and stats"
+    },
+    "/users/{userId}/simulations/{simId}": {
+      "schema": "Simulation",
+      "description": "History of simulations for a user"
+    }
+  }
+}
